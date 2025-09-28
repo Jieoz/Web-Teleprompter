@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能提词器</title>
+    <link rel="stylesheet" href="teleprompter.css">
+</head>
+<body>
+    <header class="header edge-visible" id="header">
+        <h1>📺 智能提词器</h1>
+    </header>
+    <div class="main-container" id="mainContainer">
+        <aside class="control-panel edge-visible" id="controlPanel">
+            <section class="control-group">
+                <h3>📝 文本编辑</h3>
+                <div class="control-item">
+                    <button id="importTextBtn">📁 导入文本</button>
+                </div>
+                <div class="control-item">
+                    <button id="exportTextBtn">📤 导出文本</button>
+                </div>
+                <div class="control-item">
+                    <button id="clearTextBtn" class="danger">🗑️ 清空文本</button>
+                </div>
+            </section>
+            <section class="control-group">
+                <h3>🎬 播放控制</h3>
+                <div class="control-item">
+                    <button id="playBtn">▶️ 开始播放</button>
+                </div>
+                <div class="control-item">
+                    <button id="resetBtn">🔄 重置位置</button>
+                </div>
+                <div class="control-item">
+                    <button id="fullscreenBtn">⛶ 切换全屏</button>
+                </div>
+                <div class="control-item">
+                    <button id="pinPanelBtn">启用自动隐藏</button>
+                </div>
+            </section>
+            <section class="control-group">
+                <h3>🎚️ 滚动参数</h3>
+                <div class="control-item">
+                    <label for="speedRange">播放速度</label>
+                    <div class="range-container">
+                        <input type="range" id="speedRange" min="0.1" max="5" step="0.1" value="1">
+                        <span class="range-value" id="speedValue">1.0</span>
+                    </div>
+                </div>
+                <div class="control-item">
+                    <label for="directionSelect">滚动方向</label>
+                    <select id="directionSelect">
+                        <option value="up">向上滚动</option>
+                        <option value="down">向下滚动</option>
+                    </select>
+                </div>
+            </section>
+            <section class="control-group">
+                <h3>🎨 显示设置</h3>
+                <div class="control-item">
+                    <label for="fontSizeRange">字体大小</label>
+                    <div class="range-container">
+                        <input type="range" id="fontSizeRange" min="20" max="120" step="2" value="36">
+                        <span class="range-value" id="fontSizeValue">36</span>
+                    </div>
+                </div>
+                <div class="control-item">
+                    <label for="fontFamilySelect">字体</label>
+                    <select id="fontFamilySelect">
+                        <option value="system-ui">系统默认</option>
+                        <option value="'Microsoft YaHei', 'PingFang SC', 'Heiti SC', sans-serif">雅黑 / 苹方</option>
+                        <option value="'Source Han Sans CN', 'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif">思源黑体</option>
+                        <option value="'SimSun', 'Songti SC', serif">宋体</option>
+                        <option value="'FangSong', serif">仿宋</option>
+                        <option value="'Roboto', 'Helvetica Neue', Arial, sans-serif">Roboto</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <label for="lineHeightRange">行距</label>
+                    <div class="range-container">
+                        <input type="range" id="lineHeightRange" min="1.0" max="3.0" step="0.1" value="1.8">
+                        <span class="range-value" id="lineHeightValue">1.8</span>
+                    </div>
+                </div>
+                <div class="control-item">
+                    <label for="framePaddingRange">页面边框</label>
+                    <div class="range-container">
+                        <input type="range" id="framePaddingRange" min="0" max="160" step="4" value="96">
+                        <span class="range-value" id="framePaddingValue">96</span>
+                    </div>
+                </div>
+                <div class="control-item">
+                    <label for="alignmentSelect">文本对齐</label>
+                    <select id="alignmentSelect">
+                        <option value="left">左对齐</option>
+                        <option value="center" selected>居中对齐</option>
+                        <option value="right">右对齐</option>
+                        <option value="justify">两端对齐</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <label for="textColorPicker">文字颜色</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="textColorPicker" value="#ffffff">
+                        <span>前景</span>
+                    </div>
+                </div>
+                <div class="control-item">
+                    <label for="bgColorPicker">背景颜色</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="bgColorPicker" value="#000000">
+                        <span>背景</span>
+                    </div>
+                </div>
+            </section>
+            <section class="control-group">
+                <h3>⌨️ 快捷键</h3>
+                <div class="shortcut-help">
+                    <strong>空格键:</strong> 播放 / 暂停<br>
+                    <strong>↑ / ↓:</strong> 快速移动当前位置<br>
+                    <strong>+ / -:</strong> 调整速度<br>
+                    <strong>← / →:</strong> 调整字体大小<br>
+                    <strong>R:</strong> 重置位置<br>
+                    <strong>F:</strong> 切换全屏<br>
+                    <strong>Esc:</strong> 退出全屏<br>
+                    <strong>H:</strong> 固定/自动隐藏控制面板
+                </div>
+            </section>
+        </aside>
+        <div class="teleprompter-area" id="teleprompterArea">
+            <section class="edit-mode" id="editMode">
+                <textarea id="textInput" placeholder="在此输入需要提示的内容...
+
+操作说明：
+• 点击“开始播放”切换到播放模式
+• 左侧控制面板可调整速度、方向等参数
+• 播放时使用快捷键快速操作
+• 支持导入/导出 TXT 文本文件
+· 对齐方式支持左、中、右及两端对齐"></textarea>
+            </section>
+            <section class="play-mode" id="playMode">
+                <div class="status-bar" id="statusBar">已暂停</div>
+                <div class="teleprompter-text" id="teleprompterText"></div>
+            </section>
+        </div>
+    </div>
+    <div class="fullscreen-controls" id="fullscreenControls">
+        <button id="speedDownBtn">➖ 减速</button>
+        <button id="togglePlayFloatingBtn">⏯️ 播放/暂停</button>
+        <button id="speedUpBtn">➕ 加速</button>
+        <button id="resetFloatingBtn">🔄 重置</button>
+        <button id="backToEditBtn">✏️ 返回编辑</button>
+    </div>
+    <input type="file" id="fileInput" class="file-input" accept=".txt">
+    <script src="teleprompter.js"></script>
+</body>
+</html>
